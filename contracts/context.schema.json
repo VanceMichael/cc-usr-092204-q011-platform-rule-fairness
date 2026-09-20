@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "领域上下文",
+  "type": "object",
+  "required": [
+    "project",
+    "actors",
+    "facts",
+    "terms"
+  ],
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "项目名称"
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "参与角色"
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "已确认事实"
+    },
+    "terms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "领域术语"
+    }
+  },
+  "additionalProperties": false
+}
