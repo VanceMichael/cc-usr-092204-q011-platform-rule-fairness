@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "规则发布包（冻结快照）",
+  "description": "一次平台规则变更必须整体冻结的六个维度：算法版本、适用商家、流量入口、补贴条件、价格约束、通知与申诉，另含退出成本。content_hash 由规范化 JSON 计算，任何维度被修改都会产生新哈希，旧审批自动失效。",
+  "type": "object",
+  "required": [
+    "package_id",
+    "revision",
+    "algorithm",
+    "scope",
+    "entries",
+    "subsidies",
+    "price_constraints",
+    "exit_terms",
+    "notification",
+    "appeal"
+  ],
+  "properties": {
+    "package_id": {"type": "string"},
+    "revision": {"type": "integer", "minimum": 1},
+    "algorithm": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": {"type": "string"},
+        "ranking_weights": {"type": "object", "additionalProperties": {"type": "number"}},
+        "factors": {"type": "array", "items": {"type": "string"}},
+        "params_artifact": {"type": "string"},
+        "internal_params": {"type": "object", "additionalProperties": {"type": "number"}}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "segments": {"type": "array", "items": {"type": "string"}},
+        "merchant_ids": {"type": "array", "items": {"type": "string"}},
+        "exclude": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entry_id", "name"],
+        "properties": {
+          "entry_id": {"type": "string"},
+          "name": {"type": "string"},
+          "traffic_share": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "subsidies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["condition_id", "applies_segments", "max_price_ratio", "subsidy_rate"],
+        "properties": {
+          "condition_id": {"type": "string"},
+          "description": {"type": "string"},
+          "applies_segments": {"type": "array", "items": {"type": "string"}},
+          "max_price_ratio": {"type": "number"},
+          "subsidy_rate": {"type": "number"},
+          "withdrawn_when_violated": {"type": "boolean"}
+        }
+      }
+    },
+    "price_constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["constraint_id", "kind", "value", "enforcement"],
+        "properties": {
+          "constraint_id": {"type": "string"},
+          "kind": {"type": "string", "enum": ["floor_price", "follow_lowest", "margin_cap"]},
+          "value": {"type": "number"},
+          "enforcement": {"type": "string", "enum": ["demotion", "delist", "fee"]},
+          "follow_depth": {"type": "integer"},
+          "applies_segments": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "exit_terms": {
+      "type": "object",
+      "properties": {
+        "lock_in_days": {"type": "integer", "minimum": 0},
+        "penalty_ratio": {"type": "number", "minimum": 0}
+      }
+    },
+    "notification": {
+      "type": "object",
+      "required": ["channel", "lead_days", "audiences"],
+      "properties": {
+        "channel": {"type": "string"},
+        "lead_days": {"type": "integer", "minimum": 0},
+        "audiences": {"type": "array", "items": {"type": "string"}},
+        "template_ref": {"type": "string"}
+      }
+    },
+    "appeal": {
+      "type": "object",
+      "required": ["window_days", "freeze_pending"],
+      "properties": {
+        "window_days": {"type": "integer", "minimum": 0},
+        "freeze_pending": {"type": "boolean"}
+      }
+    },
+    "notes": {"type": "string"},
+    "created_by": {"type": "string"}
+  },
+  "additionalProperties": false
+}

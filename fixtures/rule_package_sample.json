@@ -1,0 +1,74 @@
+{
+  "package_id": "RULE-SEARCH",
+  "revision": 2,
+  "algorithm": {
+    "version": "algo-v2",
+    "ranking_weights": {
+      "p": 1.0
+    },
+    "factors": [
+      "p"
+    ],
+    "params_artifact": "",
+    "internal_params": {}
+  },
+  "scope": {
+    "segments": [
+      "A",
+      "B"
+    ],
+    "merchant_ids": [],
+    "exclude": []
+  },
+  "entries": [
+    {
+      "entry_id": "search_home",
+      "name": "首页搜索",
+      "traffic_share": 1.0
+    }
+  ],
+  "subsidies": [
+    {
+      "condition_id": "SUB-LOWPRICE",
+      "description": "低价补贴",
+      "applies_segments": [
+        "A"
+      ],
+      "max_price_ratio": 1.0,
+      "subsidy_rate": 0.08,
+      "withdrawn_when_violated": true
+    }
+  ],
+  "price_constraints": [
+    {
+      "constraint_id": "PC-FOLLOW",
+      "kind": "follow_lowest",
+      "value": 0.0,
+      "enforcement": "demotion",
+      "follow_depth": 0,
+      "applies_segments": [
+        "A"
+      ]
+    }
+  ],
+  "exit_terms": {
+    "lock_in_days": 90,
+    "penalty_ratio": 0.1
+  },
+  "notification": {
+    "channel": "in_app",
+    "lead_days": 7,
+    "audiences": [
+      "A",
+      "B"
+    ],
+    "template_ref": ""
+  },
+  "appeal": {
+    "window_days": 30,
+    "freeze_pending": true
+  },
+  "notes": "改为价格因子排序、要求跟价、违价撤补贴、新增90天锁定",
+  "created_by": "ops-demo",
+  "content_hash": "sha256:bbb2971e5c939a0a"
+}
