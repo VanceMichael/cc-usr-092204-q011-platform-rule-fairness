@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "规则变更事件",
+  "description": "事件日志只增不改：紧急止损、回滚、豁免均以新事件追加，历史不可抹去。",
+  "type": "object",
+  "required": ["seq", "type", "actor", "ts", "payload"],
+  "properties": {
+    "seq": { "type": "integer", "minimum": 1 },
+    "type": {
+      "enum": [
+        "package_drafted",
+        "package_updated",
+        "package_frozen",
+        "approval_submitted",
+        "notification_sent",
+        "package_published",
+        "package_promoted",
+        "package_superseded",
+        "package_rolled_back",
+        "emergency_stopped",
+        "exemption_granted",
+        "alert_raised"
+      ]
+    },
+    "actor": { "type": "string", "description": "触发事件的账号或 system" },
+    "ts": { "type": "string", "format": "date-time" },
+    "payload": {
+      "type": "object",
+      "required": ["package_id"],
+      "properties": {
+        "package_id": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "package_id": "PKG-2026-001",
+  "title": "搜索排序与补贴联动规则 V2",
+  "content": {
+    "algorithm_version": "rank-v2.3.1",
+    "algorithm_detail": {
+      "ranking_weights": { "price": 0.4, "sales": 0.3, "rating": 0.3 }
+    },
+    "merchant_scope": {
+      "groups": ["餐饮商家", "生鲜商家"],
+      "estimated_merchants": 1280
+    },
+    "traffic_entries": ["搜索", "推荐feed"],
+    "subsidy_conditions": {
+      "full_reduction": "满30减5",
+      "margin_floor": 0.12,
+      "budget_ceiling": 500000
+    },
+    "price_constraints": {
+      "max_price": 59.9,
+      "price_linkage": "补贴期间不得涨价"
+    },
+    "notification_plan": [
+      { "group": "餐饮商家", "channel": "站内信" },
+      { "group": "生鲜商家", "channel": "站内信" }
+    ],
+    "appeal_policy": {
+      "channel": "商家后台-申诉中心",
+      "sla_days": 7
+    },
+    "rollout": {
+      "stages": [
+        { "name": "灰度10%", "percent": 10 },
+        { "name": "灰度50%", "percent": 50 }
+      ]
+    }
+  }
+}

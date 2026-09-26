@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "规则发布包",
+  "description": "冻结后即不可变的发布包内容：算法版本、适用商家、流量入口、补贴条件、价格约束、通知与申诉。",
+  "type": "object",
+  "required": [
+    "algorithm_version",
+    "merchant_scope",
+    "traffic_entries",
+    "subsidy_conditions",
+    "price_constraints",
+    "notification_plan",
+    "appeal_policy",
+    "rollout"
+  ],
+  "properties": {
+    "algorithm_version": {
+      "type": "string",
+      "description": "算法版本标识"
+    },
+    "merchant_scope": {
+      "type": "object",
+      "description": "适用商家范围",
+      "properties": {
+        "groups": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "merchant_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exclude_merchant_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "estimated_merchants": { "type": "integer" }
+      }
+    },
+    "traffic_entries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "流量入口"
+    },
+    "subsidy_conditions": {
+      "type": "object",
+      "description": "补贴条件"
+    },
+    "price_constraints": {
+      "type": "object",
+      "description": "价格约束"
+    },
+    "notification_plan": {
+      "type": "array",
+      "description": "通知计划，上线前必须全部完成或走紧急流程",
+      "items": {
+        "type": "object",
+        "required": ["group", "channel"],
+        "properties": {
+          "group": { "type": "string" },
+          "channel": { "type": "string" }
+        }
+      }
+    },
+    "appeal_policy": {
+      "type": "object",
+      "description": "申诉政策"
+    },
+    "rollout": {
+      "type": "object",
+      "description": "灰度计划",
+      "required": ["stages"],
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "percent"],
+            "properties": {
+              "name": { "type": "string" },
+              "percent": { "type": "integer", "minimum": 0, "maximum": 100 }
+            }
+          }
+        }
+      }
+    }
+  }
+}
